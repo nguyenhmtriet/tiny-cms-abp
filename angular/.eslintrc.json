@@ -10,7 +10,7 @@
       ],
       "parserOptions": {
         "project": [
-          "tsconfig.json"
+          "./tsconfig.base.json"
         ],
         "createDefaultProgram": true
       },
@@ -34,7 +34,9 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "no-empty-function": "off",
+        "@angular-eslint/no-empty-lifecycle-method": "off"
       }
     },
     {
