@@ -3,6 +3,12 @@
   "texts": {
     "Menu:Home": "Home",
     "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+    "Cms": "Cms",
+    "Dashboard": "Dashboard",
+    "Menu:Page": "Page",
+    "CmsManagement": "CMS Management",
+    "Permission:CmsManagement": "Cms management",
+    "Permission:Create": "Create Cms"
   }
 }

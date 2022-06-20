@@ -8,9 +8,8 @@ public class AbpCMSPermissionDefinitionProvider : PermissionDefinitionProvider
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var myGroup = context.AddGroup(AbpCMSPermissions.GroupName);
-        //Define your own permissions here. Example:
-        //myGroup.AddPermission(AbpCMSPermissions.MyPermission1, L("Permission:MyPermission1"));
+        var myGroup = context.AddGroup(AbpCMSPermissions.GroupName, LocalizableString.Create<AbpCMSResource>("Permission:CmsManagement"));
+        myGroup.AddPermission(AbpCMSPermissions.Page.Create, LocalizableString.Create<AbpCMSResource>("Permission:Create"));
     }
 
     private static LocalizableString L(string name)

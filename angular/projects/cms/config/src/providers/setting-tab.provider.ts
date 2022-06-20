@@ -16,9 +16,9 @@ export function configureSettingTabs(cmsSettingsService: CmsSettingsService) {
   return () => {
     cmsSettingsService.add([
       {
-        name: eCmsSettingTabNames.PageGroup,
+        name: eCmsSettingTabNames.MenuPageGroup,
         order: 100,
-        requiredPolicy: 'Cms.PageGroup',
+        requiredPolicy: 'AbpCMSManagement.Pages.Create',
         component: CmsPageGroupComponent,
       },
     ]);

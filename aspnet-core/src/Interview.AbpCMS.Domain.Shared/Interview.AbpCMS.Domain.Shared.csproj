@@ -21,7 +21,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Localization\AbpCMS\*.json" />
+    <Compile Remove="Localization\Cms\**" />
     <Content Remove="Localization\AbpCMS\*.json" />
+    <EmbeddedResource Remove="Localization\Cms\**" />
+    <None Remove="Localization\Cms\**" />
   </ItemGroup>
 
   <ItemGroup>

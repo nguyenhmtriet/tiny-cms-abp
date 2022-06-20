@@ -1,3 +1,3 @@
 export const enum eCmsSettingTabNames {
-  PageGroup = 'Cms::Menu:Page',
+  MenuPageGroup = 'AbpCMS::Menu:Page',
 }
