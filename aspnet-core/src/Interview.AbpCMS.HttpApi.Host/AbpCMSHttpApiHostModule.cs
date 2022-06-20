@@ -111,7 +111,10 @@ public class AbpCMSHttpApiHostModule : AbpModule
     {
         Configure<AbpAspNetCoreMvcOptions>(options =>
         {
-            options.ConventionalControllers.Create(typeof(AbpCMSApplicationModule).Assembly);
+            options.ConventionalControllers.Create(typeof(AbpCMSApplicationModule).Assembly, opts =>
+            {
+                opts.RootPath = "cms-management";
+            });
         });
     }
 
