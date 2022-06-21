@@ -74,12 +74,6 @@ public class AbpCMSDbContext :
         builder.ConfigureTenantManagement();
 
         /* Configure your own tables/entities inside here */
-
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(AbpCMSConsts.DbTablePrefix + "YourEntities", AbpCMSConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
+        builder.ConfigurePageContentEntity();
     }
 }

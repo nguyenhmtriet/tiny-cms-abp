@@ -113,7 +113,7 @@ public class AbpCMSHttpApiHostModule : AbpModule
         {
             options.ConventionalControllers.Create(typeof(AbpCMSApplicationModule).Assembly, opts =>
             {
-                opts.RootPath = "cms-management";
+                opts.RootPath = "cms";
             });
         });
     }
@@ -173,6 +173,7 @@ public class AbpCMSHttpApiHostModule : AbpModule
             options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
             options.Languages.Add(new LanguageInfo("de-DE", "de-DE", "Deutsch", "de"));
             options.Languages.Add(new LanguageInfo("es", "es", "Español", "es"));
+            options.Languages.Add(new LanguageInfo("vi", "vi", "Việt Nam", "vn"));
         });
     }
 

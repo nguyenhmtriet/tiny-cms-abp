@@ -9,6 +9,9 @@
     "Menu:Page": "Page",
     "CmsManagement": "CMS Management",
     "Permission:CmsManagement": "Cms management",
-    "Permission:Create": "Create Cms"
+    "Permission:Cms.PageManagement": "Cms Page management",
+    "Permission:Cms.Page.Create": "Create Page",
+    "Permission:Cms.Page.Edit": "Edit Page",
+    "Permission:Cms.Page.Delete": "Delete Page"
   }
 }

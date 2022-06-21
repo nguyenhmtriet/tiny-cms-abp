@@ -8,12 +8,11 @@ public class AbpCMSPermissionDefinitionProvider : PermissionDefinitionProvider
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var myGroup = context.AddGroup(AbpCMSPermissions.GroupName, LocalizableString.Create<AbpCMSResource>("Permission:CmsManagement"));
-        myGroup.AddPermission(AbpCMSPermissions.Page.Create, LocalizableString.Create<AbpCMSResource>("Permission:Create"));
-    }
+        var cmsManagementGroup = context.AddGroup(AbpCMSPermissions.GroupName, LocalizableString.Create<AbpCMSResource>("Permission:CmsManagement"));
 
-    private static LocalizableString L(string name)
-    {
-        return LocalizableString.Create<AbpCMSResource>(name);
+        var pagePermission = cmsManagementGroup.AddPermission(AbpCMSPermissions.Page.Default, LocalizableString.Create<AbpCMSResource>("Permission:Cms.PageManagement"));
+        pagePermission.AddChild(AbpCMSPermissions.Page.Create, LocalizableString.Create<AbpCMSResource>("Permission:Cms.Page.Create"));
+        pagePermission.AddChild(AbpCMSPermissions.Page.Edit, LocalizableString.Create<AbpCMSResource>("Permission:Cms.Page.Edit"));
+        pagePermission.AddChild(AbpCMSPermissions.Page.Delete, LocalizableString.Create<AbpCMSResource>("Permission:Cms.Page.Delete"));
     }
 }
