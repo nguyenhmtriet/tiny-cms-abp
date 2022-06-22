@@ -1,1 +1,1 @@
-export * from './cms-page-group/cms-page-group.component';
+export * from './cms-page-list/cms-page-list.component';
