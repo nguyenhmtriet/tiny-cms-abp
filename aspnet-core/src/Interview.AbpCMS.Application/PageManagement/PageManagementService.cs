@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 
@@ -35,15 +36,19 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
         return ObjectMapper.Map<PageContent, PageContentDto>(pageContent);
     }
 
-    public async Task<IEnumerable<PageContentDto>> GetPageContentsAsync(CancellationToken ct)
+    public async Task<PagedResultDto<PageContentDto>> GetPageContentsAsync(GetPageContentQuery query, CancellationToken ct)
     {
-        var pageContents = await _pageMgmtRepository.GetListAsync(cancellationToken: ct);
+        var pageContents = await _pageMgmtRepository.GetPagedListAsync(query.SkipCount, query.MaxResultCount, query.Sorting, false, ct);
         if (pageContents == null || !pageContents.Any())
         {
-            return Enumerable.Empty<PageContentDto>();
+            return new PagedResultDto<PageContentDto>(0, new PageContentDto[] { });
         }
 
-        return pageContents.Select(pc => ObjectMapper.Map<PageContent, PageContentDto>(pc));
+        var totalCount = await _pageMgmtRepository.GetCountAsync();
+        return new PagedResultDto<PageContentDto>(
+            totalCount,
+            ObjectMapper.Map<List<PageContent>, List<PageContentDto>>(pageContents)
+            );
     }
 
     public async Task<PageContentDto> CreatePageContentAsync(CreatePageContentDto createPageContentDto, CancellationToken ct)
@@ -110,7 +115,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
                 Content = pageContentDto.Content,
             }, ct);
         }
-        
+
         return await CreatePageContentAsync(new CreatePageContentDto
         {
             Title = pageContentDto.Title,
