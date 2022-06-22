@@ -1,0 +1,17 @@
+{
+  "culture": "en-GB",
+  "texts": {
+    "Menu:Home": "Home",
+    "Welcome": "Welcome",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+    "Cms": "Cms",
+    "Dashboard": "Dashboard",
+    "Menu:Page": "Page",
+    "CmsManagement": "CMS Management",
+    "Permission:CmsManagement": "Cms management",
+    "Permission:Cms.PageManagement": "Cms Page management",
+    "Permission:Cms.Page.Create": "Create Page",
+    "Permission:Cms.Page.Edit": "Edit Page",
+    "Permission:Cms.Page.Delete": "Delete Page"
+  }
+}
