@@ -20,4 +20,32 @@ export class CmsManagementService {
       },
       { apiName: this.apiName }
     );
+
+  get = (id: string) =>
+    this.restService.request<any, PageContentDto>(
+      {
+        method: 'GET',
+        url: `/api/cms/page-management/${id}/page-content`,
+      },
+      { apiName: this.apiName }
+    );
+
+  createOrUpdate = (result: PageContentDto) =>
+    this.restService.request<any, PageContentDto>(
+      {
+        method: 'POST',
+        url: '/api/cms/page-management/handle-insert-or-update-page-content',
+        body: result,
+      },
+      { apiName: this.apiName }
+    );
+
+  delete = (result: PageContentDto) =>
+    this.restService.request<any, PageContentDto>(
+      {
+        method: 'DELETE',
+        url: `/api/cms/page-management/${result.id}/page-content`,
+      },
+      { apiName: this.apiName }
+    );
 }

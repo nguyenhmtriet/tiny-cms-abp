@@ -72,6 +72,11 @@
                 "inject": true,
                 "bundleName": "bootstrap-ltr.min"
               },
+              {
+                "input": "node_modules/quill/dist/quill.snow.css",
+                "inject": true,
+                "bundleName": "quill.snow.min"
+              },
               "src/styles.scss"
             ],
             "scripts": []

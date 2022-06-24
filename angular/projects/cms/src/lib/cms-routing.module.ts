@@ -19,7 +19,7 @@ const routes: Routes = [
         path: '',
         component: ReplaceableRouteContainerComponent,
         data: {
-          requiredPolicy: 'Cms.PageGroup',
+          requiredPolicy: 'AbpCMSManagement.Pages',
           replaceableComponent: {
             key: eCmsComponents.CmsDashboard,
             defaultComponent: CmsDashboardComponent,

@@ -1,11 +1,19 @@
-import { ListService, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
+import {
+  ListService,
+  LocalizationService,
+  PagedAndSortedResultRequestDto,
+  PagedResultDto
+} from '@abp/ng.core';
+import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
+import moment from 'moment';
 import { eCmsSettingTabNames } from '../../enums/setting-tab-names.enum';
 import { PageContentDto } from '../../models';
 import { CmsManagementService } from '../../services';
+import { CmsPageDetailComponent } from '../cms-page-detail/cms-page-detail.component';
 
 @Component({
   selector: 'lib-cms-page-list',
@@ -22,6 +30,9 @@ export class CmsPageListComponent implements OnInit {
   constructor(
     public listService: ListService<PagedAndSortedResultRequestDto>,
     private service: CmsManagementService,
+    private confirmationService: ConfirmationService,
+    private localizationService: LocalizationService,
+    private toaster: ToasterService,
     public dialog: MatDialog
   ) {
     this.listService
@@ -31,12 +42,10 @@ export class CmsPageListComponent implements OnInit {
           (this.data = {
             totalCount: res.totalCount,
             items: res.items.map(i => {
-              const publishDate = new Date(i.publishDate);
+              const publishDate = moment(i.publishDate);
               return {
                 ...i,
-                publishDate: `${publishDate?.getFullYear()}-${
-                  publishDate?.getMonth() + 1
-                }-${publishDate?.getDate()}`,
+                publishDate: publishDate?.format("YYYY MMMM DD"),
               };
             }),
           })
@@ -54,42 +63,75 @@ export class CmsPageListComponent implements OnInit {
     this.listService.sortOrder = sort.direction;
   }
 
-  createBook() {
-    // const dialogRef = this.dialog.open(BookDialogComponent);
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) {
-    //     this.bookService.create(result).subscribe(() => {
-    //       this.listService.get();
-    //     });
-    //   }
-    // });
+  create() {
+    const dialogRef = this.dialog.open<CmsPageDetailComponent, PageContentDto, PageContentDto>(
+      CmsPageDetailComponent,
+      {
+        disableClose: true,
+      }
+    );
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service.createOrUpdate(result).subscribe(() => {
+          this.toaster.success({
+            key: '::SuccessfullyCreated',
+            defaultValue: 'Successfully created',
+          });
+          this.listService.get();
+        });
+      }
+    });
   }
 
-  editBook(id: any) {
-    // this.bookService.get(id).subscribe(book => {
-    //   const dialogRef = this.dialog.open(BookDialogComponent, {
-    //     data: book,
-    //   });
-    //   dialogRef.afterClosed().subscribe(result => {
-    //     if (result) {
-    //       this.bookService.update(id, result).subscribe(() => {
-    //         this.listService.get();
-    //       });
-    //     }
-    //   });
-    // });
+  edit(id: string) {
+    this.service.get(id).subscribe(pageContent => {
+      const dialogRef = this.dialog.open<CmsPageDetailComponent, any, PageContentDto>(
+        CmsPageDetailComponent,
+        {
+          data: {
+            ...pageContent,
+            publishDate: moment(pageContent?.publishDate),
+          },
+          disableClose: true,
+        }
+      );
+      dialogRef.afterClosed().subscribe(result => {
+        if (!result) {
+          return;
+        }
+
+        result.id = id;
+        this.service.createOrUpdate(result).subscribe(() => {
+          this.toaster.success({
+            key: '::SuccessfullyUpdated',
+            defaultValue: 'Successfully updated',
+          });
+          this.listService.get();
+        });
+      });
+    });
   }
-  deleteBook(id: string) {
-    // const confirmationDialogRef = this.dialog.open(ConfirmationDialogComponent, {
-    //   data: {
-    //     title: '::AreYouSure',
-    //     description: '::AreYouSureToDelete',
-    //   },
-    // });
-    // confirmationDialogRef.afterClosed().subscribe(confirmationResult => {
-    //   if (confirmationResult) {
-    //     this.bookService.delete(id).subscribe(() => this.listService.get());
-    //   }
-    // });
+  delete(pageContent: PageContentDto) {
+    this.confirmationService
+      .warn(
+        this.localizationService.instant(
+          '::ItemWillBeDeletedMessageWithFormat',
+          `"${pageContent.title}"`
+        ),
+        { key: '::AreYouSure', defaultValue: 'Are you sure?' }
+      )
+      .subscribe((status: Confirmation.Status) => {
+        if (status !== Confirmation.Status.confirm) {
+          return;
+        }
+
+        this.service.delete(pageContent).subscribe(res => {
+          this.toaster.success({
+            key: '::SuccessfullyDeleted',
+            defaultValue: 'Successfully deleted',
+          });
+          this.listService.get();
+        });
+      });
   }
 }

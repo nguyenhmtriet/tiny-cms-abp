@@ -27,9 +27,13 @@
     "@angular/forms": "~13.3.3",
     "@angular/localize": "~13.3.3",
     "@angular/material": "13.3.x",
+    "@angular/material-moment-adapter": "~13.3.3",
     "@angular/platform-browser": "~13.3.3",
     "@angular/platform-browser-dynamic": "~13.3.3",
     "@angular/router": "~13.3.3",
+    "moment": "^2.29.3",
+    "ngx-quill": "16.x",
+    "quill": "1.x",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"

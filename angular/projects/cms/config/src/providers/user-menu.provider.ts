@@ -1,3 +1,4 @@
+import { PermissionService } from '@abp/ng.core';
 import { UserMenuService } from '@abp/ng.theme.shared';
 import { APP_INITIALIZER } from '@angular/core';
 import { Router } from '@angular/router';
@@ -8,12 +9,12 @@ export const CMS_USER_MENU_PROVIDERS = [
   {
     provide: APP_INITIALIZER,
     useFactory: configureUserMenu,
-    deps: [UserMenuService, Router],
+    deps: [UserMenuService, PermissionService, Router],
     multi: true,
   },
 ];
 
-export function configureUserMenu(userMenuService: UserMenuService, router: Router) {
+export function configureUserMenu(userMenuService: UserMenuService, permissionService: PermissionService, router: Router) {
   return () => {
     userMenuService.addItems([
       {
