@@ -26,7 +26,7 @@ public class PageContent : Entity<Guid>, IHasDeletionTime, IHasCreationTime, IHa
         IsDeleted = false;
         DeletionTime = null;
         LastModificationTime = null;
-        CreationTime = DateTime.UtcNow;
+        CreationTime = DateTime.Now;
     }
 
     public override object[] GetKeys()

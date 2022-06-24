@@ -14,4 +14,5 @@ public interface IPageManagementAppService : IApplicationService
     Task<PageContentDto> HandleInsertOrUpdatePageContentAsync(CreateOrUpdatePageContentDto pageContentDto, CancellationToken ct);
     Task<PageContentDto> CreatePageContentAsync(CreatePageContentDto createPageContentDto, CancellationToken ct);
     Task<PageContentDto> UpdatePageContentAsync(UpdatePageContentDto updatePageContentDto, CancellationToken ct);
+    Task<PageContentDto> DeletePageContentAsync(Guid id, CancellationToken ct);
 }

@@ -124,4 +124,17 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
             Content = pageContentDto.Content,
         }, ct);
     }
+
+    public async Task<PageContentDto> DeletePageContentAsync(Guid id, CancellationToken ct)
+    {
+        var pageContent = await _pageMgmtRepository.FindAsync(pc => pc.Id == id, cancellationToken: ct);
+
+        if (pageContent == null)
+        {
+            throw new EntityNotFoundException();
+        }
+
+        await _pageMgmtRepository.DeleteAsync(id, true, ct);
+        return ObjectMapper.Map<PageContent, PageContentDto>(pageContent);
+    }
 }
