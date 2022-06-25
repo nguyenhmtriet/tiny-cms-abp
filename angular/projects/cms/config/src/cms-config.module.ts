@@ -20,11 +20,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { QuillModule } from 'ngx-quill';
 import { CmsPageDetailComponent } from './components/cms-page-detail/cms-page-detail.component';
 import { CmsPageListComponent } from './components/cms-page-list/cms-page-list.component';
-import { CMS_SETTING_TAB_PROVIDERS } from './providers';
+import { CMS_ROUTE_PROVIDERS, CMS_SETTING_TAB_PROVIDERS } from './providers';
 import { CMS_USER_MENU_PROVIDERS } from './providers/user-menu.provider';
 import { CmsSettingsService } from './services';
 import { CmsManagementService } from './services/cms-management.service';
@@ -34,6 +36,7 @@ import { CmsManagementService } from './services/cms-management.service';
     CoreModule,
     MatCardModule,
     MatTableModule,
+    MatSortModule,
     MatPaginatorModule,
     MatMenuModule,
     MatInputModule,
@@ -43,6 +46,7 @@ import { CmsManagementService } from './services/cms-management.service';
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSlideToggleModule,
     EllipsisModule,
     QuillModule.forRoot(),
   ],
@@ -76,7 +80,7 @@ export class CmsConfigModule {
   static forRoot(): ModuleWithProviders<CmsConfigModule> {
     return {
       ngModule: CmsConfigModule,
-      providers: [CMS_USER_MENU_PROVIDERS, CMS_SETTING_TAB_PROVIDERS],
+      providers: [CMS_USER_MENU_PROVIDERS, CMS_SETTING_TAB_PROVIDERS, CMS_ROUTE_PROVIDERS],
     };
   }
 }

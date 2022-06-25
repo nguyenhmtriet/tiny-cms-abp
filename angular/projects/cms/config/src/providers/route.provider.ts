@@ -1,21 +1,30 @@
-import { eLayoutType, RoutesService } from '@abp/ng.core';
 import { APP_INITIALIZER } from '@angular/core';
-import { eCmsRouteNames } from '../enums';
+import { map } from 'rxjs/operators';
+import { CmsManagementService } from '../services/cms-management.service';
 
 export const CMS_ROUTE_PROVIDERS = [
-  { provide: APP_INITIALIZER, useFactory: configureRoutes, deps: [RoutesService], multi: true },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: configureRoutes,
+    deps: [CmsManagementService],
+    multi: true,
+  },
 ];
 
-export function configureRoutes(routesService: RoutesService) {
+export function configureRoutes(cmsManagementService: CmsManagementService) {
   return () => {
-    routesService.add([
-      {
-        name: eCmsRouteNames.Dashboard,
-        path: '/cms',
-        layout: eLayoutType.application,
-        order: 100,
-        iconClass: 'fa fa-cogs',
-      },
-    ]);
+    return cmsManagementService.getLists().pipe(
+      map(res => {
+        if (!res || !res.items) {
+          return;
+        }
+
+        res.items
+          .sort((a, b) => a.order - b.order)
+          .map(item => {
+            cmsManagementService.addRoute(item);
+          });
+      })
+    );
   };
 }

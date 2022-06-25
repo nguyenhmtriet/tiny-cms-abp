@@ -7,7 +7,7 @@ import {
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { eCmsComponents } from 'projects/cms/config/src/enums/components.enum';
-import { CmsDashboardComponent } from './components';
+import { CmsDashboardComponent, PageComponent } from './components';
 
 const routes: Routes = [
   {
@@ -23,6 +23,16 @@ const routes: Routes = [
           replaceableComponent: {
             key: eCmsComponents.CmsDashboard,
             defaultComponent: CmsDashboardComponent,
+          } as ReplaceableComponents.RouteData,
+        },
+      },
+      {
+        path: 'page/:id',
+        component: ReplaceableRouteContainerComponent,
+        data: {
+          replaceableComponent: {
+            key: eCmsComponents.Page,
+            defaultComponent: PageComponent,
           } as ReplaceableComponents.RouteData,
         },
       },

@@ -3,10 +3,11 @@ import { CoreModule, LazyModuleFactory } from '@abp/ng.core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
 import { ModuleWithProviders, NgModule, NgModuleFactory } from '@angular/core';
 import { CmsRoutingModule } from './cms-routing.module';
-import { CmsDashboardComponent } from './components';
+import { CmsDashboardComponent, PageComponent } from './components';
+import { SanitizerPipe } from './pipes/sanitizer.pipe';
 
 @NgModule({
-  declarations: [CmsDashboardComponent],
+  declarations: [CmsDashboardComponent, PageComponent, SanitizerPipe],
   imports: [CmsRoutingModule, CoreModule, ThemeSharedModule, PageModule],
   exports: [],
 })

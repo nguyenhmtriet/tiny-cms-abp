@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { Moment } from 'moment';
 import { PageContentDto } from '../../models';
-import { CmsManagementService } from '../../services/cms-management.service';
 
 @Component({
   selector: 'lib-cms-page-detail',
@@ -16,11 +15,7 @@ import { CmsManagementService } from '../../services/cms-management.service';
 export class CmsPageDetailComponent implements OnInit {
   form: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: PageContentDto,
-    cmsManagementService: CmsManagementService
-  ) {}
+  constructor(private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: PageContentDto) {}
 
   ngOnInit(): void {
     this.buildForm();
@@ -33,6 +28,7 @@ export class CmsPageDetailComponent implements OnInit {
       content: [this.data?.content, Validators.required],
       publishDate: [this.data?.publishDate, Validators.required],
       id: [this.data?.id],
+      order: [this.data?.order || 1, Validators.required],
       isDeleted: [this.data?.isDeleted || false],
     });
   }

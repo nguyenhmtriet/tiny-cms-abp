@@ -1,11 +1,38 @@
-import { PagedResultDto, RestService } from '@abp/ng.core';
+import {
+  ABP,
+  eLayoutType,
+  ListResultDto,
+  PagedResultDto,
+  RestService,
+  RoutesService,
+} from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import { GetPageContentQuery, PageContentDto } from '../models';
 
 @Injectable()
 export class CmsManagementService {
   private readonly apiName = 'AbpCMSManagement';
-  constructor(private restService: RestService) {}
+  constructor(private restService: RestService, private routesService: RoutesService) {}
+
+  addRoute(pageContent: PageContentDto) {
+    this.routesService.add([this.createRoute(pageContent)]);
+  }
+
+  createRoute(pageContent: PageContentDto): ABP.Route {
+    return {
+      name: pageContent.title,
+      path: `cms/page/${pageContent.id}`,
+      layout: eLayoutType.application,
+      order: pageContent.order,
+      // iconClass: 'fa fa-cogs',
+    };
+  }
+
+  getLists = () =>
+    this.restService.request<any, ListResultDto<PageContentDto>>({
+      method: 'GET',
+      url: '/api/cms/page-management/lists',
+    });
 
   getPagedList = (query: GetPageContentQuery) =>
     this.restService.request<any, PagedResultDto<PageContentDto>>(
@@ -13,7 +40,7 @@ export class CmsManagementService {
         method: 'GET',
         url: '/api/cms/page-management/page-contents',
         params: {
-          sorting: query.sorting || 'title',
+          sorting: query.sorting || 'order',
           skipCount: query.skipCount,
           maxResultCount: query.maxResultCount,
         },

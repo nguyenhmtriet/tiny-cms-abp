@@ -1,31 +1,47 @@
-<h2 mat-dialog-title>{{ (data ? '::Edit' : '::New' )| abpLocalization }}</h2>
+<h2 mat-dialog-title>{{ (data ? '::Edit' : '::New') | abpLocalization }}</h2>
 <mat-dialog-content>
-  <form [formGroup]="form" class="form-container">
+  <form [formGroup]="form" class="form-container d-flex flex-column">
     <mat-form-field class="w-100">
-      <mat-label>{{'::Title' | abpLocalization}}</mat-label>
-      <input type="text" id="page-title" matInput formControlName="title">
+      <mat-label>{{ '::Title' | abpLocalization }}</mat-label>
+      <input type="text" id="page-title" matInput formControlName="title" />
     </mat-form-field>
     <mat-form-field class="w-100">
-      <mat-label>{{'::Author' | abpLocalization}}</mat-label>
-      <input type="text" id="page-author" matInput formControlName="author">
+      <mat-label>{{ '::Author' | abpLocalization }}</mat-label>
+      <input type="text" id="page-author" matInput formControlName="author" />
     </mat-form-field>
 
     <div class="w-100">
-      <mat-label>{{'::Content' | abpLocalization}} </mat-label>
-      <quill-editor formControlName="content"></quill-editor>
+      <mat-label>{{ '::Content' | abpLocalization }} </mat-label>
+      <quill-editor formControlName="content" id="page-content"></quill-editor>
     </div>
 
-    <mat-form-field class="w-10">
-      <mat-label>{{'::PublishDate' | abpLocalization}}</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="publishDate">
+    <mat-form-field class="w-25">
+      <mat-label>{{ '::Order' | abpLocalization }}</mat-label>
+      <input type="number" id="page-order" matInput formControlName="order" />
+    </mat-form-field>
+
+    <mat-form-field class="w-25">
+      <mat-label>{{ '::PublishDate' | abpLocalization }}</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="publishDate" />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
+    <div class="w-100" *ngIf="!!data?.id">
+      <mat-slide-toggle id="page-is-deleted" formControlName="isDeleted">{{
+        '::IsDeleted' | abpLocalization
+      }}</mat-slide-toggle>
+    </div>
   </form>
-
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button  mat-dialog-close>{{ '::Close' | abpLocalization }}</button>
-  <button mat-raised-button color="primary" [mat-dialog-close]="getFormValue()" [disabled]="form.invalid"> {{'::Save' | abpLocalization}}</button>
+  <button mat-button mat-dialog-close>{{ '::Close' | abpLocalization }}</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [mat-dialog-close]="getFormValue()"
+    [disabled]="form.invalid"
+  >
+    {{ '::Save' | abpLocalization }}
+  </button>
 </mat-dialog-actions>

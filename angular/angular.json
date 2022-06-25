@@ -116,6 +116,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "liveReload": false
+          },
           "configurations": {
             "production": {
               "browserTarget": "AbpCMS:build:production"

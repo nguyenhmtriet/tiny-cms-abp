@@ -6,6 +6,7 @@ export interface PageContentDto extends FullAuditedEntityDto<string> {
   content: string;
   publishDate: string;
   author: string;
+  order: number;
 }
 
 export interface GetPageContentQuery extends PagedAndSortedResultRequestDto {}
