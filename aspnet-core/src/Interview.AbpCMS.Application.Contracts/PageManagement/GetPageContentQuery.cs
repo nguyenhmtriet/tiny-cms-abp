@@ -7,5 +7,6 @@ namespace Interview.AbpCMS.PageManagement
 {
     public class GetPageContentQuery : PagedAndSortedResultRequestDto
     {
+        bool IncludedSoftDelete { get; set; } = false;
     }
 }

@@ -22,4 +22,7 @@ public class UpdatePageContentDto
     public DateTime PublishDate { get; set; }
 
     public bool IsDeleted { get; set; }
+
+    [Required]
+    public int Order { get; set; }
 }

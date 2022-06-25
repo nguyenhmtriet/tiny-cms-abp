@@ -18,5 +18,8 @@ namespace Interview.AbpCMS.PageManagement
         [Required]
         [MaxLength(PageContentEntityConsts.AuthorMaxLength)]
         public new string Author { get; set; }
+
+        [Required]
+        public new int Order { get; set; }
     }
 }

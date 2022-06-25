@@ -9,6 +9,7 @@ namespace Interview.AbpCMS.PageManagement;
 
 public interface IPageManagementAppService : IApplicationService
 {
+    Task<ListResultDto<PageContentDto>> GetAllLists(CancellationToken ct);
     Task<PageContentDto> GetPageContentAsync(Guid id, CancellationToken ct);
     Task<PagedResultDto<PageContentDto>> GetPageContentsAsync(GetPageContentQuery input, CancellationToken ct);
     Task<PageContentDto> HandleInsertOrUpdatePageContentAsync(CreateOrUpdatePageContentDto pageContentDto, CancellationToken ct);

@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Entities;
-using Volo.Abp.Domain.Repositories;
 
 namespace Interview.AbpCMS.PageManagement;
 
@@ -29,6 +28,17 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
         _pageMgmtDomain = pageManagementDomain;
         _logger = logger;
     }
+
+    [AllowAnonymous]
+    public async Task<ListResultDto<PageContentDto>> GetAllLists(CancellationToken ct)
+    {
+        var pageContents = await _pageMgmtRepository.GetListAsync(p => p.IsDeleted == false, false, ct);
+
+        return new ListResultDto<PageContentDto>(
+            ObjectMapper.Map<List<PageContent>, List<PageContentDto>>(pageContents)
+        );
+    }
+
     public async Task<PageContentDto> GetPageContentAsync(Guid id, CancellationToken ct)
     {
         var pageContent = await _pageMgmtRepository.GetAsync(id);
@@ -60,6 +70,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
                 createPageContentDto.Content,
                 createPageContentDto.Author,
                 createPageContentDto.PublishDate,
+                createPageContentDto.Order,
                 ct);
 
             await _pageMgmtRepository.InsertAsync(pageContent, true, ct);
@@ -88,6 +99,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
             pageContent.Author = updatePageContentDto.Author;
             pageContent.PublishDate = updatePageContentDto.PublishDate;
             pageContent.IsDeleted = updatePageContentDto.IsDeleted;
+            pageContent.Order = updatePageContentDto.Order;
 
             //pageContent.LastModificationTime = DateTime.UtcNow;
 
@@ -113,6 +125,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
                 PublishDate = pageContentDto.PublishDate,
                 IsDeleted = pageContentDto.IsDeleted,
                 Content = pageContentDto.Content,
+                Order = pageContentDto.Order,
             }, ct);
         }
 
@@ -122,6 +135,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
             Author = pageContentDto.Author,
             PublishDate = pageContentDto.PublishDate,
             Content = pageContentDto.Content,
+            Order = pageContentDto.Order,
         }, ct);
     }
 

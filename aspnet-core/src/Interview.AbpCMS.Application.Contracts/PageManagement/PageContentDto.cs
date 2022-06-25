@@ -15,4 +15,6 @@ public class PageContentDto : FullAuditedEntityDto<Guid?>
     public DateTime PublishDate { get; set; }
 
     public string Author { get; set; }
+
+    public int Order { get; set; }
 }
