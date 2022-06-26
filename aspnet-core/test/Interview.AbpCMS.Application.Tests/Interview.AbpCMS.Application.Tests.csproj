@@ -8,12 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Interview.AbpCMS.Application.Contracts\Interview.AbpCMS.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\src\Interview.AbpCMS.Application\Interview.AbpCMS.Application.csproj" />
     <ProjectReference Include="..\Interview.AbpCMS.Domain.Tests\Interview.AbpCMS.Domain.Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="Moq" Version="4.18.1" />
   </ItemGroup>
 
 </Project>

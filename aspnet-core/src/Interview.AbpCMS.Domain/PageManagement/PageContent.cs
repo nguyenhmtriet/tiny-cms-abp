@@ -17,6 +17,20 @@ public class PageContent : Entity<Guid>, IHasDeletionTime, IHasCreationTime, IHa
     public DateTime CreationTime { get; set; }
     public DateTime? LastModificationTime { get; set; }
 
+    public PageContent(Guid id, string title, string content, string author, DateTime publishDate, int order)
+    {
+        Id = id;
+        Title = title;
+        Content = content;
+        PublishDate = publishDate;
+        Author = author;
+        Order = order;
+        IsDeleted = false;
+        DeletionTime = null;
+        LastModificationTime = null;
+        CreationTime = DateTime.Now;
+    }
+
     public PageContent(string title, string content, string author, DateTime publishDate, int order)
     {
         Id = Guid.NewGuid();

@@ -3,7 +3,7 @@ using Shouldly;
 using Volo.Abp.Identity;
 using Xunit;
 
-namespace Interview.AbpCMS.Samples;
+namespace Interview.AbpCMS.PageManagement;
 
 /* This is just an example test class.
  * Normally, you don't test code of the modules you are using
