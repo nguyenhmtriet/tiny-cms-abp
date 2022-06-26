@@ -39,6 +39,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
         );
     }
 
+    [AllowAnonymous]
     public async Task<PageContentDto> GetPageContentAsync(Guid id, CancellationToken ct)
     {
         var pageContent = await _pageMgmtRepository.GetAsync(id);
@@ -61,6 +62,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
             );
     }
 
+    [Authorize(AbpCMSPermissions.Page.Create)]
     public async Task<PageContentDto> CreatePageContentAsync(CreatePageContentDto createPageContentDto, CancellationToken ct)
     {
         try
@@ -83,6 +85,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
         }
     }
 
+    [Authorize(AbpCMSPermissions.Page.Edit)]
     public async Task<PageContentDto> UpdatePageContentAsync(UpdatePageContentDto updatePageContentDto, CancellationToken ct)
     {
         try
@@ -113,6 +116,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
         }
     }
 
+    [Authorize(AbpCMSPermissions.Page.Create)]
     public async Task<PageContentDto> HandleInsertOrUpdatePageContentAsync(CreateOrUpdatePageContentDto pageContentDto, CancellationToken ct)
     {
         if (pageContentDto.Id != null)
@@ -139,6 +143,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
         }, ct);
     }
 
+    [Authorize(AbpCMSPermissions.Page.Delete)]
     public async Task<PageContentDto> DeletePageContentAsync(Guid id, CancellationToken ct)
     {
         var pageContent = await _pageMgmtRepository.FindAsync(pc => pc.Id == id, cancellationToken: ct);
