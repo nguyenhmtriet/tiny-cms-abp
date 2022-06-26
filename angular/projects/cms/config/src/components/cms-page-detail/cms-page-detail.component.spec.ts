@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CmsPageGroupComponent } from './cms-page-group.component';
+import { CmsPageDetailComponent } from './cms-page-detail.component';
 
-describe('CmsPageGroupComponent', () => {
-  let component: CmsPageGroupComponent;
-  let fixture: ComponentFixture<CmsPageGroupComponent>;
+describe('CmsPageDetailComponent', () => {
+  let component: CmsPageDetailComponent;
+  let fixture: ComponentFixture<CmsPageDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CmsPageGroupComponent ]
+      declarations: [ CmsPageDetailComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CmsPageGroupComponent);
+    fixture = TestBed.createComponent(CmsPageDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

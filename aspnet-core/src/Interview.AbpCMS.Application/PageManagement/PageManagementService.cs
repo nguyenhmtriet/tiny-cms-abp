@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Entities;
-using Volo.Abp.Domain.Repositories;
 
 namespace Interview.AbpCMS.PageManagement;
 
@@ -28,6 +28,18 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
         _pageMgmtDomain = pageManagementDomain;
         _logger = logger;
     }
+
+    [AllowAnonymous]
+    public async Task<ListResultDto<PageContentDto>> GetAllLists(CancellationToken ct)
+    {
+        var pageContents = await _pageMgmtRepository.GetListAsync(p => p.IsDeleted == false, false, ct);
+
+        return new ListResultDto<PageContentDto>(
+            ObjectMapper.Map<List<PageContent>, List<PageContentDto>>(pageContents)
+        );
+    }
+
+    [AllowAnonymous]
     public async Task<PageContentDto> GetPageContentAsync(Guid id, CancellationToken ct)
     {
         var pageContent = await _pageMgmtRepository.GetAsync(id);
@@ -35,17 +47,22 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
         return ObjectMapper.Map<PageContent, PageContentDto>(pageContent);
     }
 
-    public async Task<IEnumerable<PageContentDto>> GetPageContentsAsync(CancellationToken ct)
+    public async Task<PagedResultDto<PageContentDto>> GetPageContentsAsync(GetPageContentQuery query, CancellationToken ct)
     {
-        var pageContents = await _pageMgmtRepository.GetListAsync(cancellationToken: ct);
+        var pageContents = await _pageMgmtRepository.GetPagedListAsync(query.SkipCount, query.MaxResultCount, query.Sorting, false, ct);
         if (pageContents == null || !pageContents.Any())
         {
-            return Enumerable.Empty<PageContentDto>();
+            return new PagedResultDto<PageContentDto>(0, new PageContentDto[] { });
         }
 
-        return pageContents.Select(pc => ObjectMapper.Map<PageContent, PageContentDto>(pc));
+        var totalCount = await _pageMgmtRepository.GetCountAsync();
+        return new PagedResultDto<PageContentDto>(
+            totalCount,
+            ObjectMapper.Map<List<PageContent>, List<PageContentDto>>(pageContents)
+            );
     }
 
+    [Authorize(AbpCMSPermissions.Page.Create)]
     public async Task<PageContentDto> CreatePageContentAsync(CreatePageContentDto createPageContentDto, CancellationToken ct)
     {
         try
@@ -55,6 +72,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
                 createPageContentDto.Content,
                 createPageContentDto.Author,
                 createPageContentDto.PublishDate,
+                createPageContentDto.Order,
                 ct);
 
             await _pageMgmtRepository.InsertAsync(pageContent, true, ct);
@@ -67,6 +85,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
         }
     }
 
+    [Authorize(AbpCMSPermissions.Page.Edit)]
     public async Task<PageContentDto> UpdatePageContentAsync(UpdatePageContentDto updatePageContentDto, CancellationToken ct)
     {
         try
@@ -83,6 +102,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
             pageContent.Author = updatePageContentDto.Author;
             pageContent.PublishDate = updatePageContentDto.PublishDate;
             pageContent.IsDeleted = updatePageContentDto.IsDeleted;
+            pageContent.Order = updatePageContentDto.Order;
 
             //pageContent.LastModificationTime = DateTime.UtcNow;
 
@@ -96,6 +116,7 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
         }
     }
 
+    [Authorize(AbpCMSPermissions.Page.Create)]
     public async Task<PageContentDto> HandleInsertOrUpdatePageContentAsync(CreateOrUpdatePageContentDto pageContentDto, CancellationToken ct)
     {
         if (pageContentDto.Id != null)
@@ -108,15 +129,31 @@ public class PageManagementService : AbpCMSAppService, IPageManagementAppService
                 PublishDate = pageContentDto.PublishDate,
                 IsDeleted = pageContentDto.IsDeleted,
                 Content = pageContentDto.Content,
+                Order = pageContentDto.Order,
             }, ct);
         }
-        
+
         return await CreatePageContentAsync(new CreatePageContentDto
         {
             Title = pageContentDto.Title,
             Author = pageContentDto.Author,
             PublishDate = pageContentDto.PublishDate,
             Content = pageContentDto.Content,
+            Order = pageContentDto.Order,
         }, ct);
+    }
+
+    [Authorize(AbpCMSPermissions.Page.Delete)]
+    public async Task<PageContentDto> DeletePageContentAsync(Guid id, CancellationToken ct)
+    {
+        var pageContent = await _pageMgmtRepository.FindAsync(pc => pc.Id == id, cancellationToken: ct);
+
+        if (pageContent == null)
+        {
+            throw new EntityNotFoundException();
+        }
+
+        await _pageMgmtRepository.DeleteAsync(id, true, ct);
+        return ObjectMapper.Map<PageContent, PageContentDto>(pageContent);
     }
 }

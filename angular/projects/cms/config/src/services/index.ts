@@ -1,1 +1,2 @@
-export * from './cms-tabs.service';
+export * from './cms-management.service';
+export * from './cms-setting-tabs.service';

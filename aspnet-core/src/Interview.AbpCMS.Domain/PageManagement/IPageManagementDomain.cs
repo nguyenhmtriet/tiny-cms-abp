@@ -11,5 +11,6 @@ public interface IPageManagementDomain
         string content,
         string author,
         DateTime publishDate,
+        int order,
         CancellationToken cancellationToken);
 }

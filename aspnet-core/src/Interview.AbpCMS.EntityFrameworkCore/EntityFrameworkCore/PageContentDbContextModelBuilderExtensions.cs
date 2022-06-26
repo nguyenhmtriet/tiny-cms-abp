@@ -17,6 +17,7 @@ public static class PageContentDbContextModelBuilderExtensions
             b.Property(x => x.Content).HasMaxLength(PageContentEntityConsts.TitleMaxLength).IsRequired();
             b.Property(x => x.Content).HasMaxLength(PageContentEntityConsts.ContentMaxLength).IsRequired();
             b.Property(x => x.Author).HasMaxLength(PageContentEntityConsts.AuthorMaxLength).IsRequired();
+            b.Property(x => x.Order).IsRequired();
 
             b.HasIndex(x => new { x.Title }).IsUnique(true);
             b.HasIndex(x => new { x.Title, x.Author }).IsUnique(true);

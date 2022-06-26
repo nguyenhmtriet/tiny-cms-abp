@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Volo.Abp.Application.Dtos;
 
 namespace Interview.AbpCMS.PageManagement;
 
@@ -17,4 +18,7 @@ public class CreatePageContentDto
     [StringLength(PageContentEntityConsts.AuthorMaxLength)]
     public string Author { get; set; }
     public DateTime PublishDate { get; set; }
+
+    [Required]
+    public int Order { get; set; }
 }

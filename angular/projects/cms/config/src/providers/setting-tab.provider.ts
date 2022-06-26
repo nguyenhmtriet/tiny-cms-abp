@@ -1,7 +1,7 @@
 import { APP_INITIALIZER } from '@angular/core';
-import { CmsPageGroupComponent } from '../components/cms-page-group/cms-page-group.component';
+import { CmsPageListComponent } from '../components/cms-page-list/cms-page-list.component';
 import { eCmsSettingTabNames } from '../enums/setting-tab-names.enum';
-import { CmsSettingsService } from '../services/cms-tabs.service';
+import { CmsSettingsService } from '../services/cms-setting-tabs.service';
 
 export const CMS_SETTING_TAB_PROVIDERS = [
   {
@@ -19,7 +19,7 @@ export function configureSettingTabs(cmsSettingsService: CmsSettingsService) {
         name: eCmsSettingTabNames.MenuPageGroup,
         order: 100,
         requiredPolicy: 'AbpCMSManagement.Pages',
-        component: CmsPageGroupComponent,
+        component: CmsPageListComponent,
       },
     ]);
   };

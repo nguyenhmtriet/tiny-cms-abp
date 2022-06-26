@@ -11,22 +11,24 @@ public class PageContent : Entity<Guid>, IHasDeletionTime, IHasCreationTime, IHa
     public string Content { get; set; }
     public DateTime PublishDate { get; set; }
     public string Author { get; set; }
+    public int Order { get; set; }
     public bool IsDeleted { get; set; }
     public DateTime? DeletionTime { get; set; }
     public DateTime CreationTime { get; set; }
     public DateTime? LastModificationTime { get; set; }
 
-    public PageContent(string title, string content, string author, DateTime publishDate)
+    public PageContent(string title, string content, string author, DateTime publishDate, int order)
     {
         Id = Guid.NewGuid();
         Title = title;
         Content = content;
         PublishDate = publishDate;
         Author = author;
+        Order = order;
         IsDeleted = false;
         DeletionTime = null;
         LastModificationTime = null;
-        CreationTime = DateTime.UtcNow;
+        CreationTime = DateTime.Now;
     }
 
     public override object[] GetKeys()

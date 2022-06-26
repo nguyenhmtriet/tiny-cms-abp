@@ -36,6 +36,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               {
                 "input": "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
                 "inject": true,
@@ -70,6 +71,11 @@
                 "input": "node_modules/bootstrap/dist/css/bootstrap.min.css",
                 "inject": true,
                 "bundleName": "bootstrap-ltr.min"
+              },
+              {
+                "input": "node_modules/quill/dist/quill.snow.css",
+                "inject": true,
+                "bundleName": "quill.snow.min"
               },
               "src/styles.scss"
             ],
@@ -110,6 +116,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "liveReload": false
+          },
           "configurations": {
             "production": {
               "browserTarget": "AbpCMS:build:production"

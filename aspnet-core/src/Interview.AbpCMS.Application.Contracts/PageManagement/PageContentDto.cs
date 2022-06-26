@@ -1,16 +1,20 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Volo.Abp.Application.Dtos;
 
 namespace Interview.AbpCMS.PageManagement;
 
-public class PageContentDto
+public class PageContentDto : FullAuditedEntityDto<Guid?>
 {
-    public Guid? Id { get; set; }
     public string Title { get; set; }
+
     public string Content { get; set; }
+
+    [Required]
+    [DataType(DataType.Date)]
     public DateTime PublishDate { get; set; }
+
     public string Author { get; set; }
-    public bool IsDeleted { get; set; }
-    public DateTime? DeletionTime { get; set; }
-    public DateTime CreationTime => DateTime.UtcNow;
-    public DateTime? LastModificationTime { get; set; }
+
+    public int Order { get; set; }
 }
