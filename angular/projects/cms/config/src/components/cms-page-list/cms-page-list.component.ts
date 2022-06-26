@@ -136,13 +136,13 @@ export class CmsPageListComponent implements OnInit, OnDestroy {
     );
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.createOrUpdate(result).subscribe(() => {
+        this.service.createOrUpdate(result).subscribe((pageContent: PageContentDto) => {
           this.toaster.success({
             key: '::SuccessfullyCreated',
             defaultValue: 'Successfully created',
           });
           this.listService.get();
-          this.pageChanges$.next({ prev: null, current: result });
+          this.pageChanges$.next({ prev: null, current: pageContent });
         });
       }
     });
